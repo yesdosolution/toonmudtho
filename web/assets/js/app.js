@@ -1,27 +1,57 @@
 /**
- * ตุ่นมุดท่อ (Toon Mud Tho) - Conversion Optimization Interactive Script V1.0
+ * ตุ่นมุดท่อ (Toon Mud Tho) - Interactive Script V1.2
  * Domain: https://toonmudtho.com/
  * LINE OA: @tunnmudto (https://line.me/R/ti/p/@tunnmudto)
  * Tel: 062-701-0222
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mobile Navigation Drawer
+  // Helper for keyboard focus trapping within modal/dialog
+  const trapFocus = (container, event) => {
+    if (event.key !== 'Tab') return;
+    const focusable = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex="0"]');
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        last.focus();
+        event.preventDefault();
+      }
+    } else {
+      if (document.activeElement === last) {
+        first.focus();
+        event.preventDefault();
+      }
+    }
+  };
+
+  // 1. Mobile Navigation Drawer (with Focus Trap & Restoration)
   const mobileToggleBtn = document.getElementById('mobileToggleBtn');
   const mobileDrawer = document.getElementById('mobileNavDrawer');
   const mobileDrawerClose = document.getElementById('mobileDrawerClose');
   const drawerLinks = document.querySelectorAll('.mobile-drawer-links a');
+  let lastFocusedNavTrigger = null;
 
   if (mobileToggleBtn && mobileDrawer) {
     const openDrawer = () => {
+      lastFocusedNavTrigger = document.activeElement;
       mobileDrawer.classList.add('open');
+      mobileDrawer.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      if (mobileDrawerClose) mobileDrawerClose.focus();
+      if (mobileDrawerClose) {
+        setTimeout(() => mobileDrawerClose.focus(), 60);
+      }
     };
 
     const closeDrawer = () => {
       mobileDrawer.classList.remove('open');
+      mobileDrawer.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      if (lastFocusedNavTrigger && typeof lastFocusedNavTrigger.focus === 'function') {
+        lastFocusedNavTrigger.focus();
+      }
     };
 
     mobileToggleBtn.addEventListener('click', openDrawer);
@@ -41,8 +71,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
-        closeDrawer();
+      if (mobileDrawer.classList.contains('open')) {
+        if (e.key === 'Escape') {
+          closeDrawer();
+        } else {
+          trapFocus(mobileDrawer, e);
+        }
       }
     });
   }
@@ -100,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Lightbox Modal for Gallery Images
+  // 4. Lightbox Modal for Gallery Images (with Focus Trap & Restoration)
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxTitle = document.getElementById('lightboxTitle');
@@ -110,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (lightboxModal) {
     const openLightbox = (item) => {
-      lastFocusedElement = document.activeElement;
+      lastFocusedElement = item;
       const imgSrc = item.getAttribute('data-full-img') || item.querySelector('img').getAttribute('src');
       const titleEl = item.querySelector('.gallery-item-title');
       const captionEl = item.querySelector('.gallery-item-caption');
@@ -123,9 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (lightboxText) lightboxText.innerText = caption;
 
       lightboxModal.classList.add('active');
+      lightboxModal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       if (lightboxClose) {
-        setTimeout(() => lightboxClose.focus(), 50);
+        setTimeout(() => lightboxClose.focus(), 60);
       }
     };
 
@@ -141,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeLightbox = () => {
       lightboxModal.classList.remove('active');
+      lightboxModal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       lightboxImg.setAttribute('src', '');
       if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
@@ -159,8 +195,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightboxModal.classList.contains('active')) {
-        closeLightbox();
+      if (lightboxModal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else {
+          trapFocus(lightboxModal, e);
+        }
       }
     });
   }
@@ -172,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const answer = item.querySelector('.faq-answer');
 
     if (questionBtn && answer) {
-      // Init ARIA
       questionBtn.setAttribute('aria-expanded', 'false');
 
       const toggleItem = () => {
@@ -204,9 +243,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. Contact Form - Lead Routing directly to LINE OA
+  // 6. Contact Form - LINE Message Preparation Tool (P0 Real Lead Flow)
   const quoteForm = document.getElementById('quickQuoteForm');
-  if (quoteForm) {
+  const preparedBox = document.getElementById('preparedMessageBox');
+  const preparedPreview = document.getElementById('preparedMsgPreview');
+  const fallbackArea = document.getElementById('fallbackCopyArea');
+  const btnCopy = document.getElementById('btnCopyPrepared');
+  const copyBtnLabel = document.getElementById('copyBtnLabel');
+
+  if (quoteForm && preparedBox && preparedPreview && btnCopy) {
     quoteForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('quoteName').value.trim();
@@ -215,13 +260,101 @@ document.addEventListener('DOMContentLoaded', () => {
       const jobType = document.getElementById('quoteJobType').value;
       const note = document.getElementById('quoteNote').value.trim();
 
-      const lineUrl = `https://line.me/R/ti/p/@tunnmudto`;
-      
-      const confirmMsg = `ข้อมูลที่คุณระบุ:\n- ชื่อ: ${name}\n- เบอร์โทร: ${phone}\n- พื้นที่: ${location}\n- ประเภทงาน: ${jobType}\n\nระบบจะนำท่านไปยัง LINE @tunnmudto เพื่อส่งรูปหน้างานและให้ทีมประเมินเบื้องต้น`;
-      
-      if (confirm(confirmMsg)) {
-        window.open(lineUrl, '_blank', 'noopener,noreferrer');
+      // Format plain text for LINE
+      const plainMessage = [
+        'สวัสดีครับ สนใจประเมินราคาลอกบ่อพัก/ท่อระบายน้ำ',
+        `- ผู้ติดต่อ/หน่วยงาน: ${name}`,
+        `- เบอร์โทรศัพท์: ${phone}`,
+        `- พื้นที่/ทำเล: ${location}`,
+        `- ประเภทหน้างาน: ${jobType}`,
+        `- รายละเอียดเพิ่มเติม: ${note || 'ไม่มีข้อมูลเพิ่มเติม'}`,
+        '(แนบรูปถ่ายหน้างานในแชทนี้)'
+      ].join('\n');
+
+      // Formatted HTML display
+      preparedPreview.innerHTML = `
+        <div class="msg-line head"><strong>สวัสดีครับ สนใจประเมินราคาลอกบ่อพัก/ท่อระบายน้ำ</strong></div>
+        <div class="msg-line"><strong>ผู้ติดต่อ:</strong> ${escapeHTML(name)}</div>
+        <div class="msg-line"><strong>เบอร์โทรศัพท์:</strong> ${escapeHTML(phone)}</div>
+        <div class="msg-line"><strong>พื้นที่/ทำเล:</strong> ${escapeHTML(location)}</div>
+        <div class="msg-line"><strong>ประเภทหน้างาน:</strong> ${escapeHTML(jobType)}</div>
+        <div class="msg-line"><strong>รายละเอียด/จำนวนบ่อ:</strong> ${escapeHTML(note || '-')}</div>
+        <div class="msg-line foot"><em>(แนบรูปถ่ายหน้างานเพิ่มเติมในแชทนี้)</em></div>
+      `;
+
+      if (fallbackArea) {
+        fallbackArea.value = plainMessage;
+      }
+
+      preparedBox.style.display = 'block';
+      preparedBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      // Reset copy button state
+      copyBtnLabel.textContent = 'คัดลอกข้อความ';
+      btnCopy.classList.remove('copied', 'copy-error');
+    });
+
+    btnCopy.addEventListener('click', async () => {
+      const textToCopy = fallbackArea ? fallbackArea.value : preparedPreview.innerText;
+
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(textToCopy);
+          handleCopySuccess();
+        } else {
+          fallbackCopy();
+        }
+      } catch (err) {
+        fallbackCopy();
       }
     });
+
+    function handleCopySuccess() {
+      btnCopy.classList.add('copied');
+      btnCopy.classList.remove('copy-error');
+      copyBtnLabel.textContent = 'คัดลอกข้อความเรียบร้อยแล้ว ✓';
+      setTimeout(() => {
+        copyBtnLabel.textContent = 'คัดลอกข้อความ';
+        btnCopy.classList.remove('copied');
+      }, 3500);
+    }
+
+    function fallbackCopy() {
+      if (fallbackArea) {
+        fallbackArea.style.display = 'block';
+        fallbackArea.select();
+        fallbackArea.setSelectionRange(0, 99999);
+        try {
+          const success = document.execCommand('copy');
+          if (success) {
+            handleCopySuccess();
+          } else {
+            handleCopyFail();
+          }
+        } catch (e) {
+          handleCopyFail();
+        }
+      } else {
+        handleCopyFail();
+      }
+    }
+
+    function handleCopyFail() {
+      btnCopy.classList.add('copy-error');
+      copyBtnLabel.textContent = 'กรุณาเลือกข้อความและกด Ctrl+C';
+      if (fallbackArea) fallbackArea.style.display = 'block';
+    }
+  }
+
+  function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, 
+      tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag)
+    );
   }
 });

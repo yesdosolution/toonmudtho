@@ -1,6 +1,6 @@
 /* ==========================================================================
    ตุ่นมุดท่อ (Toon Mud Tho) - Official Single Page Website Styles
-   UI/UX Refinement, Mobile Fix & Accessibility V1.1
+   UI/UX Refinement & Control Tower Final Corrections V1.2
    Brand Palette (Strictly Preserved):
    - Primary Blue: #003E9B (แถบบนและหัวข้อหลัก)
    - Primary Dark: #002D72
@@ -36,6 +36,7 @@
   --text-muted: #334155;
   --text-light: #475569;
   --text-white: #FFFFFF;
+  --text-on-accent: #08162B; /* Dark Navy for high-contrast on Green & Orange */
   
   --line-green: #06C755;
   --line-green-hover: #05AB49;
@@ -55,7 +56,7 @@
   --shadow-green: 0 6px 20px rgba(6, 199, 85, 0.35);
   
   --container-max: 1200px;
-  --header-height: 76px;
+  --header-height: 78px;
   --transition: all 0.25s ease-in-out;
 }
 
@@ -91,7 +92,7 @@ body {
   }
 }
 
-/* Accessibility Focus Indicator */
+/* Accessibility Focus Indicator (WCAG 2.1) */
 :focus-visible {
   outline: 3px solid var(--accent-orange) !important;
   outline-offset: 3px !important;
@@ -185,14 +186,21 @@ button {
   color: var(--text-white);
   font-size: 0.95rem;
   padding: 8px 0;
+  display: none; /* Hidden on mobile to keep top clean */
+}
+
+@media (min-width: 768px) {
+  .top-bar {
+    display: block;
+  }
 }
 
 .top-bar-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-wrap: nowrap;
+  gap: 16px;
 }
 
 .top-bar-left, .top-bar-right {
@@ -207,6 +215,7 @@ button {
   gap: 6px;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .top-bar-link:hover {
@@ -220,7 +229,7 @@ button {
   fill: currentColor;
 }
 
-/* Main Navigation */
+/* Main Navigation Header (Clean 1440px Row) */
 .main-header {
   background: var(--bg-white);
   border-bottom: 1px solid var(--border-color);
@@ -238,17 +247,19 @@ button {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 20px;
 }
 
 .brand-logo-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-logo-img {
-  max-height: 52px;
+  max-height: 46px;
   width: auto;
   object-fit: contain;
 }
@@ -256,10 +267,11 @@ button {
 .nav-menu {
   display: none;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
   list-style: none;
   margin: 0;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .nav-link {
@@ -268,6 +280,7 @@ button {
   color: var(--text-main);
   padding: 8px 4px;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -289,22 +302,28 @@ button {
   display: none;
   align-items: center;
   gap: 14px;
+  flex-shrink: 0;
 }
 
+/* High Contrast Button Tokens */
 .header-line-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   background: var(--line-green);
-  color: var(--text-white) !important;
+  color: var(--text-on-accent) !important; /* #08162B on #06C755 = 8.02:1 Contrast (AAA) */
   padding: 10px 20px;
   min-height: 48px;
   border-radius: var(--radius-full);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1rem;
   box-shadow: var(--shadow-green);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.header-line-btn svg {
+  fill: var(--text-on-accent);
 }
 
 .header-line-btn:hover {
@@ -319,7 +338,8 @@ button {
   color: var(--primary-blue);
   font-weight: 700;
   font-size: 1.05rem;
-  padding: 8px 12px;
+  padding: 8px 10px;
+  white-space: nowrap;
 }
 
 .header-phone-link:hover {
@@ -424,6 +444,34 @@ button {
   }
 }
 
+@media (min-width: 992px) and (max-width: 1199px) {
+  .header-inner {
+    gap: 12px;
+  }
+  .brand-logo-img {
+    max-height: 40px;
+  }
+  .nav-menu {
+    gap: 12px;
+  }
+  .nav-link {
+    font-size: 0.95rem;
+    padding: 6px 2px;
+  }
+  .header-cta-group {
+    gap: 8px;
+  }
+  .header-phone-link {
+    font-size: 0.95rem;
+    padding: 6px 6px;
+  }
+  .header-line-btn {
+    font-size: 0.92rem;
+    padding: 8px 14px;
+    min-height: 44px;
+  }
+}
+
 /* ==========================================================================
    Hero Section
    ========================================================================== */
@@ -443,7 +491,7 @@ button {
 
 @media (min-width: 992px) {
   .hero-grid {
-    grid-template-columns: 1.15fr 1fr;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: 48px;
     align-items: center;
   }
@@ -530,24 +578,27 @@ button {
   }
 }
 
-/* Button System V1.1 */
+/* Primary LINE Button - High Contrast V1.2 (Dark Navy on Green = 8.02:1) */
 .btn-primary-line {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   background-color: var(--line-green);
-  color: var(--text-white) !important;
+  color: var(--text-on-accent) !important;
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 800;
   min-height: 52px;
   padding: 14px 26px;
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-green);
   text-align: center;
   line-height: 1.2;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   transition: var(--transition);
+}
+
+.btn-primary-line svg {
+  fill: var(--text-on-accent);
 }
 
 .btn-primary-line:hover {
@@ -587,7 +638,7 @@ button {
   overflow-wrap: break-word;
 }
 
-/* 3 Supporting Benefits - Mobile Stacked & Desktop Grid */
+/* 3 Supporting Benefits */
 .hero-benefits {
   display: flex;
   flex-direction: column;
@@ -662,6 +713,7 @@ button {
 /* Hero Visual Box */
 .hero-visual {
   min-width: 0;
+  max-width: 100%;
 }
 
 .hero-visual-card {
@@ -671,10 +723,12 @@ button {
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-color);
   background: #000;
+  max-width: 100%;
 }
 
 .hero-main-img {
   width: 100%;
+  max-width: 100%;
   height: auto;
   object-fit: cover;
   display: block;
@@ -939,7 +993,7 @@ button {
   padding: 13px 24px;
   min-height: 50px;
   border-radius: var(--radius-full);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1.05rem;
   align-self: flex-start;
   margin-top: auto;
@@ -960,9 +1014,14 @@ button {
   background-color: var(--primary-blue-dark);
 }
 
+/* Orange Button with Dark Navy text = 6.70:1 Contrast (AAA Large / AA Normal) */
 .audience-card.construction .audience-cta-btn {
   background-color: var(--accent-orange);
-  color: #FFFFFF !important;
+  color: var(--text-on-accent) !important;
+}
+
+.audience-card.construction .audience-cta-btn svg {
+  fill: var(--text-on-accent);
 }
 
 .audience-card.construction .audience-cta-btn:hover {
@@ -1050,6 +1109,19 @@ button {
   line-height: 1.65;
   margin: 0;
   flex-grow: 1;
+}
+
+.service-ai-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(8, 22, 43, 0.88);
+  color: #FFA54D;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 165, 77, 0.4);
 }
 
 /* ==========================================================================
@@ -1344,7 +1416,7 @@ button {
 .process-num {
   font-size: 2.4rem;
   font-weight: 800;
-  color: var(--accent-orange);
+  color: #FFA54D; /* High contrast on Blue = 4.8:1 */
   line-height: 1;
   margin-bottom: 12px;
 }
@@ -1488,7 +1560,7 @@ button {
 }
 
 /* ==========================================================================
-   Section 12: Contact & Lead Conversion
+   Section 12: Contact & Lead Conversion (P0 Message Prep Flow)
    ========================================================================== */
 .contact-section {
   background: linear-gradient(135deg, #FFFFFF 0%, var(--bg-surface) 100%);
@@ -1695,24 +1767,194 @@ textarea.form-control {
 }
 
 .form-submit-btn {
-  background-color: var(--line-green);
-  color: var(--text-white) !important;
+  background-color: var(--primary-blue);
+  color: #FFFFFF !important;
   font-weight: 700;
   font-size: 1.15rem;
   padding: 14px 20px;
   min-height: 54px;
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-green);
+  box-shadow: var(--shadow-md);
   margin-top: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
 }
 
 .form-submit-btn:hover {
-  background-color: var(--line-green-hover);
+  background-color: var(--primary-blue-dark);
+}
+
+/* Prepared Message Result Box (P0 Real Lead Flow) */
+.prepared-message-box {
+  margin-top: 24px;
+  background: var(--bg-surface);
+  border: 2px solid var(--primary-blue);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.prepared-box-header {
+  margin-bottom: 14px;
+}
+
+.prepared-box-tag {
+  display: inline-block;
+  background: var(--primary-blue-50);
+  color: var(--primary-blue);
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  margin-bottom: 8px;
+  border: 1px solid rgba(0, 62, 155, 0.2);
+}
+
+.prepared-box-instruction {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.prepared-msg-preview {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin-bottom: 16px;
+  user-select: all;
+}
+
+.prepared-msg-preview .msg-line {
+  margin-bottom: 4px;
+}
+
+.prepared-msg-preview .msg-line.head {
+  color: var(--primary-blue-dark);
+  font-weight: 700;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 6px;
+}
+
+.prepared-msg-preview .msg-line.foot {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+.fallback-copy-area {
+  display: none;
+  width: 100%;
+  height: 110px;
+  padding: 10px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  color: var(--text-main);
+}
+
+.prepared-action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 576px) {
+  .prepared-action-group {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.btn-action-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--bg-white);
+  color: var(--primary-blue) !important;
+  border: 2px solid var(--primary-blue);
+  padding: 12px 20px;
+  min-height: 50px;
+  border-radius: var(--radius-full);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-action-copy svg {
+  fill: currentColor;
+}
+
+.btn-action-copy:hover {
+  background: var(--primary-blue-50);
+}
+
+.btn-action-copy.copied {
+  background: #10B981;
+  color: #FFFFFF !important;
+  border-color: #10B981;
+}
+
+.btn-action-copy.copied svg {
+  fill: #FFFFFF;
+}
+
+.btn-action-copy.copy-error {
+  background: #EF4444;
+  color: #FFFFFF !important;
+  border-color: #EF4444;
+}
+
+.btn-action-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--line-green);
+  color: var(--text-on-accent) !important;
+  padding: 12px 22px;
+  min-height: 50px;
+  border-radius: var(--radius-full);
+  font-size: 1.05rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-green);
+  transition: var(--transition);
+}
+
+.btn-action-line svg {
+  fill: var(--text-on-accent);
+}
+
+.btn-action-line:hover {
+  background: var(--line-green-hover);
+  transform: translateY(-2px);
+}
+
+.prepared-disclaimer {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 10px;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 10px;
 }
 
 /* ==========================================================================
@@ -1799,7 +2041,7 @@ textarea.form-control {
 }
 
 /* ==========================================================================
-   Mobile Sticky Action Bar (Fixed Bottom) V1.1
+   Mobile Sticky Action Bar (Fixed Bottom) V1.2
    ========================================================================== */
 .mobile-sticky-bar {
   position: fixed;
@@ -1838,7 +2080,7 @@ textarea.form-control {
   padding: 12px 6px;
   min-height: 48px;
   border-radius: var(--radius-full);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.95rem;
   line-height: 1.2;
   text-align: center;
@@ -1854,9 +2096,12 @@ textarea.form-control {
 
 .mobile-bar-line {
   background-color: var(--line-green);
-  color: #FFFFFF !important;
+  color: var(--text-on-accent) !important; /* 8.02:1 Contrast */
   box-shadow: var(--shadow-green);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-bar-line svg {
+  fill: var(--text-on-accent);
 }
 
 .mobile-bar-call {
