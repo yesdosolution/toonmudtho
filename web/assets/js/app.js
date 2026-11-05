@@ -106,23 +106,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxTitle = document.getElementById('lightboxTitle');
   const lightboxText = document.getElementById('lightboxText');
   const lightboxClose = document.getElementById('lightboxClose');
+  let lastFocusedElement = null;
 
   if (lightboxModal) {
+    const openLightbox = (item) => {
+      lastFocusedElement = document.activeElement;
+      const imgSrc = item.getAttribute('data-full-img') || item.querySelector('img').getAttribute('src');
+      const titleEl = item.querySelector('.gallery-item-title');
+      const captionEl = item.querySelector('.gallery-item-caption');
+      const title = titleEl ? titleEl.innerText : 'ภาพหน้างานจริง';
+      const caption = captionEl ? captionEl.innerText : '';
+
+      lightboxImg.setAttribute('src', imgSrc);
+      lightboxImg.setAttribute('alt', title);
+      if (lightboxTitle) lightboxTitle.innerText = title;
+      if (lightboxText) lightboxText.innerText = caption;
+
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      if (lightboxClose) {
+        setTimeout(() => lightboxClose.focus(), 50);
+      }
+    };
+
     galleryItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const imgSrc = item.getAttribute('data-full-img') || item.querySelector('img').getAttribute('src');
-        const titleEl = item.querySelector('.gallery-item-title');
-        const captionEl = item.querySelector('.gallery-item-caption');
-        const title = titleEl ? titleEl.innerText : 'ภาพหน้างานจริง';
-        const caption = captionEl ? captionEl.innerText : '';
-
-        lightboxImg.setAttribute('src', imgSrc);
-        lightboxImg.setAttribute('alt', title);
-        if (lightboxTitle) lightboxTitle.innerText = title;
-        if (lightboxText) lightboxText.innerText = caption;
-
-        lightboxModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+      item.addEventListener('click', () => openLightbox(item));
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(item);
+        }
       });
     });
 
@@ -130,6 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxModal.classList.remove('active');
       document.body.style.overflow = '';
       lightboxImg.setAttribute('src', '');
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+      }
     };
 
     if (lightboxClose) {
