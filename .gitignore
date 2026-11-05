@@ -1,0 +1,4 @@
+﻿# Gitignore
+*.zip
+*.log
+node_modules/
