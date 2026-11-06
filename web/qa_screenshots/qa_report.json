@@ -1,5 +1,5 @@
 {
-  "testDate": "2026-11-06T12:43:49.472Z",
+  "testDate": "2026-11-06T13:10:42.578Z",
   "evaluationVerdict": "PASS (Audited Components)",
   "deviceTesting": {
     "chromeDesktopHeadless": "PASS",
@@ -168,85 +168,85 @@
   "screenshots": {
     "01_desktop_hero_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\01_desktop_hero_1440.png",
-      "sizeBytes": 512463,
-      "sizeKB": 500.5,
+      "sizeBytes": 461421,
+      "sizeKB": 450.6,
       "isPng": true,
       "valid": true
     },
     "02_desktop_fullpage_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\02_desktop_fullpage_1440.png",
-      "sizeBytes": 2440982,
-      "sizeKB": 2383.8,
+      "sizeBytes": 2383921,
+      "sizeKB": 2328,
       "isPng": true,
       "valid": true
     },
     "03_mobile_hero_390.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\03_mobile_hero_390.png",
-      "sizeBytes": 116661,
-      "sizeKB": 113.9,
+      "sizeBytes": 116970,
+      "sizeKB": 114.2,
       "isPng": true,
       "valid": true
     },
     "04_mobile_fullpage_390.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\04_mobile_fullpage_390.png",
-      "sizeBytes": 139664,
-      "sizeKB": 136.4,
+      "sizeBytes": 140065,
+      "sizeKB": 136.8,
       "isPng": true,
       "valid": true
     },
     "05_mobile_375.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\05_mobile_375.png",
-      "sizeBytes": 96314,
-      "sizeKB": 94.1,
+      "sizeBytes": 96304,
+      "sizeKB": 94,
       "isPng": true,
       "valid": true
     },
     "06_mobile_sticky_cta.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\06_mobile_sticky_cta.png",
-      "sizeBytes": 9739,
+      "sizeBytes": 9741,
       "sizeKB": 9.5,
       "isPng": true,
       "valid": true
     },
     "07c_portfolio_mobile_390.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07c_portfolio_mobile_390.png",
-      "sizeBytes": 189589,
-      "sizeKB": 185.1,
+      "sizeBytes": 188740,
+      "sizeKB": 184.3,
       "isPng": true,
       "valid": true
     },
     "07a_portfolio_section_desktop.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07a_portfolio_section_desktop.png",
-      "sizeBytes": 834368,
-      "sizeKB": 814.8,
+      "sizeBytes": 818101,
+      "sizeKB": 798.9,
       "isPng": true,
       "valid": true
     },
     "07d_portfolio_lightbox.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07d_portfolio_lightbox.png",
-      "sizeBytes": 910307,
+      "sizeBytes": 910298,
       "sizeKB": 889,
       "isPng": true,
       "valid": true
     },
     "07b_portfolio_section_expanded.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07b_portfolio_section_expanded.png",
-      "sizeBytes": 834400,
-      "sizeKB": 814.8,
+      "sizeBytes": 818137,
+      "sizeKB": 799,
       "isPng": true,
       "valid": true
     },
     "07_proof_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07_proof_section.png",
-      "sizeBytes": 593230,
-      "sizeKB": 579.3,
+      "sizeBytes": 573002,
+      "sizeKB": 559.6,
       "isPng": true,
       "valid": true
     },
     "08_services_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\08_services_section.png",
-      "sizeBytes": 559828,
-      "sizeKB": 546.7,
+      "sizeBytes": 542576,
+      "sizeKB": 529.9,
       "isPng": true,
       "valid": true
     },
@@ -308,7 +308,7 @@
     "logoHref": "#hero",
     "allNavOnSameRow": true,
     "heroMicroText": "* ส่งรูปหน้างาน จำนวนบ่อโดยประมาณ และพิกัดโครงการ เพื่อให้ทีมประเมินข้อมูลเบื้องต้น",
-    "heroBadgeText": "ภาพประกอบจำลอง",
+    "heroBadgeText": "ทีมงานตุ่นมุดท่อ",
     "serviceAiBadgeText": "ภาพประกอบจำลอง"
   },
   "accessibilityAudit": {

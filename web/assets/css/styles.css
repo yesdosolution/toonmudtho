@@ -768,12 +768,21 @@ button {
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: var(--radius-full);
-  background: rgba(253, 118, 1, 0.25);
-  color: #FFA54D;
-  border: 1px solid rgba(253, 118, 1, 0.4);
+  background: rgba(6, 199, 85, 0.25);
+  color: #4ADE80;
+  border: 1px solid rgba(74, 222, 128, 0.4);
   white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .hero-image-caption {
+    position: relative;
+    background: #002D72;
+    padding: 12px 14px;
+    border-top: none;
+  }
 }
 
 /* ==========================================================================
