@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) submitBtn.disabled = true;
       if (submitBtnText) submitBtnText.textContent = 'กำลังบันทึกและส่งข้อมูล...';
 
-      // 1. Send Lead and Compressed Photos directly to Formspree (nanakornsuesat@gmail.com)
+      // 1. Send Lead directly to Formspree (nanakornsuesat@gmail.com)
       const formData = new FormData();
       formData.append('ผู้ติดต่อ_หน่วยงาน', name);
       formData.append('เบอร์โทรศัพท์', phone);
@@ -436,9 +436,11 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.append('ประเภทหน้างาน', jobType);
       formData.append('รายละเอียดเพิ่มเติม', note || 'ไม่มีข้อมูลเพิ่มเติม');
 
-      compressedFilesList.forEach((item, idx) => {
-        formData.append(`รูปถ่ายหน้างาน_${idx + 1}`, item.file);
-      });
+      if (compressedFilesList.length > 0) {
+        formData.append('รูปถ่ายหน้างาน', `ลูกค้าแนบรูปถ่าย ${compressedFilesList.length} รูป (เตรียมส่งในแชท LINE)`);
+      } else {
+        formData.append('รูปถ่ายหน้างาน', 'ไม่ได้แนบรูปถ่าย');
+      }
 
       try {
         await fetch('https://formspree.io/f/mwlljeno', {
