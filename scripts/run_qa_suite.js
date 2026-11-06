@@ -52,6 +52,8 @@ async function main() {
   await sendCDP(ws, 'Page.enable');
   await sendCDP(ws, 'DOM.enable');
   await sendCDP(ws, 'Runtime.enable');
+  await sendCDP(ws, 'Network.enable');
+  await sendCDP(ws, 'Network.setCacheDisabled', { cacheDisabled: true });
 
   // Grant clipboard permissions initially
   try {
@@ -151,7 +153,8 @@ async function main() {
       status: passed ? 'PASS' : 'FAIL',
       windowWidth: res.windowWidth,
       docScrollWidth: res.docScrollWidth,
-      overflowCount: res.overflowCount
+      overflowCount: res.overflowCount,
+      overflowingElements: res.overflowingElements
     };
     console.log(`[${passed ? 'PASS' : 'FAIL'}] ${vp.name}: width=${res.windowWidth}, scrollWidth=${res.docScrollWidth}, overflows=${res.overflowCount}`);
   }
@@ -608,7 +611,7 @@ async function main() {
       step1_userFillsInfo: 'PASS (Verified via CDP input evaluation)',
       step2_systemCreatesCorrectText: formResult.assertions.allFieldsPresent ? 'PASS' : 'FAIL',
       step3_copySuccessOrFallbackWorking: 'PASS (Both states captured and verified)',
-      step4_openSameLineOA: 'PASS (href matches https://line.me/R/ti/p/@tunnmudto)',
+      step4_openSameLineOA: 'PASS (href matches https://lin.ee/WYiZBnO)',
       step5_userPastesAndSendsThemselves: 'PASS (Disclaimer and user guidance present)'
     },
     sampleGeneratedMessage: formResult.previewText,
@@ -629,8 +632,8 @@ async function main() {
         const phoneLinks = Array.from(document.querySelectorAll('a[href^="tel:"]'));
         const allPhoneMatch = phoneLinks.length > 0 && phoneLinks.every(a => a.getAttribute('href') === 'tel:0627010222');
 
-        const lineLinks = Array.from(document.querySelectorAll('a[href*="line.me"]'));
-        const allLineMatch = lineLinks.length > 0 && lineLinks.every(a => a.getAttribute('href') === 'https://line.me/R/ti/p/@tunnmudto');
+        const lineLinks = Array.from(document.querySelectorAll('a[href*="lin.ee"], a[href*="line.me"]'));
+        const allLineMatch = lineLinks.length > 0 && lineLinks.every(a => a.getAttribute('href') === 'https://lin.ee/WYiZBnO');
 
         const logoLink = document.querySelector('.brand-logo-wrap');
         const logoHref = logoLink ? logoLink.getAttribute('href') : null;

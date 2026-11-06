@@ -1,7 +1,7 @@
 /**
  * ตุ่นมุดท่อ (Toon Mud Tho) - Interactive Script V1.2
  * Domain: https://toonmudtho.com/
- * LINE OA: @tunnmudto (https://line.me/R/ti/p/@tunnmudto)
+ * LINE OA: https://lin.ee/WYiZBnO
  * Tel: 062-701-0222
  */
 

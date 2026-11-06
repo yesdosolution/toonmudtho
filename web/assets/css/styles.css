@@ -189,7 +189,7 @@ button {
   display: none; /* Hidden on mobile to keep top clean */
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .top-bar {
     display: block;
   }
@@ -199,8 +199,8 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .top-bar-left, .top-bar-right {

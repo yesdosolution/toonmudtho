@@ -1,5 +1,5 @@
 {
-  "testDate": "2026-11-06T12:29:29.836Z",
+  "testDate": "2026-11-06T12:43:49.472Z",
   "evaluationVerdict": "PASS (Audited Components)",
   "deviceTesting": {
     "chromeDesktopHeadless": "PASS",
@@ -11,55 +11,64 @@
       "status": "PASS",
       "windowWidth": 320,
       "docScrollWidth": 320,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "360px Mobile": {
       "status": "PASS",
       "windowWidth": 360,
       "docScrollWidth": 360,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "375px Mobile": {
       "status": "PASS",
       "windowWidth": 375,
       "docScrollWidth": 375,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "390px Mobile": {
       "status": "PASS",
       "windowWidth": 390,
       "docScrollWidth": 390,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "414px Mobile": {
       "status": "PASS",
       "windowWidth": 414,
       "docScrollWidth": 414,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "768px Tablet": {
       "status": "PASS",
       "windowWidth": 768,
-      "docScrollWidth": 767,
-      "overflowCount": 0
+      "docScrollWidth": 753,
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "1024px Small Desktop": {
       "status": "PASS",
       "windowWidth": 1024,
       "docScrollWidth": 1009,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "1280px Desktop": {
       "status": "PASS",
       "windowWidth": 1280,
       "docScrollWidth": 1265,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     },
     "1440px Desktop": {
       "status": "PASS",
       "windowWidth": 1440,
       "docScrollWidth": 1425,
-      "overflowCount": 0
+      "overflowCount": 0,
+      "overflowingElements": []
     }
   },
   "browserZoomMatrix": {
@@ -126,7 +135,7 @@
       "step1_userFillsInfo": "PASS (Verified via CDP input evaluation)",
       "step2_systemCreatesCorrectText": "PASS",
       "step3_copySuccessOrFallbackWorking": "PASS (Both states captured and verified)",
-      "step4_openSameLineOA": "PASS (href matches https://line.me/R/ti/p/@tunnmudto)",
+      "step4_openSameLineOA": "PASS (href matches https://lin.ee/WYiZBnO)",
       "step5_userPastesAndSendsThemselves": "PASS (Disclaimer and user guidance present)"
     },
     "sampleGeneratedMessage": "สวัสดีครับ สนใจประเมินราคาลอกบ่อพัก/ท่อระบายน้ำ\nผู้ติดต่อ: วิศวกรสมชาย (ฝ่ายตรวจรับโครงการ)\nเบอร์โทรศัพท์: 081-234-5678\nพื้นที่/ทำเล: โครงการบางนา กม.15 (บางพลี)\nประเภทหน้างาน: หมู่บ้านจัดสรร / นิติบุคคล (ดูแลประจำปี)\nรายละเอียด/จำนวนบ่อ: ท่อระบายน้ำอุดตัน มีโคลนสะสมประมาณ 30 บ่อ ต้องการลอกก่อนส่งมอบงาน\n(แนบรูปถ่ายหน้างานเพิ่มเติมในแชทนี้)",
@@ -159,15 +168,15 @@
   "screenshots": {
     "01_desktop_hero_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\01_desktop_hero_1440.png",
-      "sizeBytes": 508529,
-      "sizeKB": 496.6,
+      "sizeBytes": 512463,
+      "sizeKB": 500.5,
       "isPng": true,
       "valid": true
     },
     "02_desktop_fullpage_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\02_desktop_fullpage_1440.png",
-      "sizeBytes": 2439991,
-      "sizeKB": 2382.8,
+      "sizeBytes": 2440982,
+      "sizeKB": 2383.8,
       "isPng": true,
       "valid": true
     },
@@ -208,36 +217,36 @@
     },
     "07a_portfolio_section_desktop.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07a_portfolio_section_desktop.png",
-      "sizeBytes": 835887,
-      "sizeKB": 816.3,
+      "sizeBytes": 834368,
+      "sizeKB": 814.8,
       "isPng": true,
       "valid": true
     },
     "07d_portfolio_lightbox.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07d_portfolio_lightbox.png",
-      "sizeBytes": 910468,
-      "sizeKB": 889.1,
+      "sizeBytes": 910307,
+      "sizeKB": 889,
       "isPng": true,
       "valid": true
     },
     "07b_portfolio_section_expanded.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07b_portfolio_section_expanded.png",
-      "sizeBytes": 835922,
-      "sizeKB": 816.3,
+      "sizeBytes": 834400,
+      "sizeKB": 814.8,
       "isPng": true,
       "valid": true
     },
     "07_proof_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07_proof_section.png",
-      "sizeBytes": 573002,
-      "sizeKB": 559.6,
+      "sizeBytes": 593230,
+      "sizeKB": 579.3,
       "isPng": true,
       "valid": true
     },
     "08_services_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\08_services_section.png",
-      "sizeBytes": 549337,
-      "sizeKB": 536.5,
+      "sizeBytes": 559828,
+      "sizeKB": 546.7,
       "isPng": true,
       "valid": true
     },
@@ -250,43 +259,43 @@
     },
     "10_contact_form_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\10_contact_form_section.png",
-      "sizeBytes": 212494,
-      "sizeKB": 207.5,
+      "sizeBytes": 211819,
+      "sizeKB": 206.9,
       "isPng": true,
       "valid": true
     },
     "10a_contact_form_initial.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\10a_contact_form_initial.png",
-      "sizeBytes": 212494,
-      "sizeKB": 207.5,
+      "sizeBytes": 211819,
+      "sizeKB": 206.9,
       "isPng": true,
       "valid": true
     },
     "10b_contact_form_message_prepared.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\10b_contact_form_message_prepared.png",
-      "sizeBytes": 180715,
-      "sizeKB": 176.5,
+      "sizeBytes": 182897,
+      "sizeKB": 178.6,
       "isPng": true,
       "valid": true
     },
     "10c_contact_form_copy_success.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\10c_contact_form_copy_success.png",
-      "sizeBytes": 181965,
-      "sizeKB": 177.7,
+      "sizeBytes": 184072,
+      "sizeKB": 179.8,
       "isPng": true,
       "valid": true
     },
     "10d_contact_form_copy_fallback.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\10d_contact_form_copy_fallback.png",
-      "sizeBytes": 175194,
-      "sizeKB": 171.1,
+      "sizeBytes": 174252,
+      "sizeKB": 170.2,
       "isPng": true,
       "valid": true
     },
     "11_footer_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\11_footer_section.png",
-      "sizeBytes": 163309,
-      "sizeKB": 159.5,
+      "sizeBytes": 162262,
+      "sizeKB": 158.5,
       "isPng": true,
       "valid": true
     }
