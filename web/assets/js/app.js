@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) submitBtn.disabled = true;
       if (submitBtnText) submitBtnText.textContent = 'กำลังบันทึกและส่งข้อมูล...';
 
-      // 1. Send Lead directly to Formspree (nanakornsuesat@gmail.com)
+      // 1. Send Lead & Uploaded Photos directly to Formspree (nanakornsuesat@gmail.com)
       const formData = new FormData();
       formData.append('ผู้ติดต่อ_หน่วยงาน', name);
       formData.append('เบอร์โทรศัพท์', phone);
@@ -437,10 +437,30 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.append('รายละเอียดเพิ่มเติม', note || 'ไม่มีข้อมูลเพิ่มเติม');
 
       if (compressedFilesList.length > 0) {
-        formData.append('รูปถ่ายหน้างาน', `ลูกค้าแนบรูปถ่าย ${compressedFilesList.length} รูป (เตรียมส่งในแชท LINE)`);
+        if (submitBtnText) submitBtnText.textContent = 'กำลังอัปโหลดรูปภาพ...';
+        for (let i = 0; i < compressedFilesList.length; i++) {
+          try {
+            const upForm = new FormData();
+            upForm.append('file', compressedFilesList[i].file);
+            const upRes = await fetch('https://tmpfiles.org/api/v1/upload', {
+              method: 'POST',
+              body: upForm
+            });
+            const upData = await upRes.json();
+            if (upData && upData.data && upData.data.url) {
+              const directLink = upData.data.url.replace('tmpfiles.org/', 'tmpfiles.org/dl/');
+              formData.append(`ลิงก์รูปถ่าย_${i + 1}`, directLink);
+            }
+          } catch (upErr) {
+            console.warn('Image upload fallback:', upErr);
+          }
+        }
+        formData.append('จำนวนรูปถ่าย', `${compressedFilesList.length} รูป`);
       } else {
         formData.append('รูปถ่ายหน้างาน', 'ไม่ได้แนบรูปถ่าย');
       }
+
+      if (submitBtnText) submitBtnText.textContent = 'กำลังส่งข้อมูลเข้าอีเมล...';
 
       try {
         await fetch('https://formspree.io/f/mwlljeno', {
