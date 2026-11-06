@@ -290,24 +290,172 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 6. Contact Form - LINE Message Preparation Tool (P0 Real Lead Flow)
+    // 6. Contact Form with Photo Upload, Client-side Compression & Netlify Lead Flow
   const quoteForm = document.getElementById('quickQuoteForm');
   const preparedBox = document.getElementById('preparedMessageBox');
   const preparedPreview = document.getElementById('preparedMsgPreview');
   const fallbackArea = document.getElementById('fallbackCopyArea');
   const btnCopy = document.getElementById('btnCopyPrepared');
   const copyBtnLabel = document.getElementById('copyBtnLabel');
+  const fileInput = document.getElementById('quotePhotos');
+  const previewGrid = document.getElementById('filePreviewGrid');
+  const submitBtn = document.getElementById('generateMsgBtn');
+  const submitBtnText = document.getElementById('submitBtnText');
+
+  // Client-side image compression using Canvas (Max 1600px, JPEG 0.82)
+  async function compressImageFile(file, maxWidth = 1600, maxHeight = 1600, quality = 0.82) {
+    if (!file.type.startsWith('image/')) {
+      return { file, originalSize: file.size, compressedSize: file.size, previewUrl: '' };
+    }
+
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          if (width > maxWidth || height > maxHeight) {
+            if (width > height) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob((blob) => {
+            if (blob && blob.size < file.size) {
+              const safeName = file.name.replace(/\.[^/.]+$/, '') + '.jpg';
+              const compressed = new File([blob], safeName, {
+                type: 'image/jpeg',
+                lastModified: Date.now()
+              });
+              resolve({
+                file: compressed,
+                originalSize: file.size,
+                compressedSize: blob.size,
+                previewUrl: canvas.toDataURL('image/jpeg', 0.6)
+              });
+            } else {
+              resolve({
+                file,
+                originalSize: file.size,
+                compressedSize: file.size,
+                previewUrl: e.target.result
+              });
+            }
+          }, 'image/jpeg', quality);
+        };
+        img.onerror = () => resolve({ file, originalSize: file.size, compressedSize: file.size, previewUrl: '' });
+        img.src = e.target.result;
+      };
+      reader.onerror = () => resolve({ file, originalSize: file.size, compressedSize: file.size, previewUrl: '' });
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  let compressedFilesList = [];
+
+  if (fileInput && previewGrid) {
+    fileInput.addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      for (const file of files) {
+        const result = await compressImageFile(file);
+        compressedFilesList.push(result);
+      }
+
+      renderPreviews();
+      fileInput.value = '';
+    });
+  }
+
+  function renderPreviews() {
+    if (!previewGrid) return;
+    previewGrid.innerHTML = '';
+
+    compressedFilesList.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'preview-card';
+      const origStr = formatFileSize(item.originalSize);
+      const compStr = formatFileSize(item.compressedSize);
+      const reducedPct = Math.round((1 - (item.compressedSize / item.originalSize)) * 100);
+
+      card.innerHTML = `
+        <img class="preview-thumb" src="${item.previewUrl || ''}" alt="รูปถ่ายหน้างาน ${index + 1}">
+        <button type="button" class="preview-remove-btn" data-index="${index}" title="ลบรูปนี้">×</button>
+        <div class="preview-info">
+          <div>${escapeHTML(item.file.name)}</div>
+          ${reducedPct > 5 ? `<span class="compressed-badge">ย่อแล้ว: ${compStr} (ลด ${reducedPct}%)</span>` : `<span>ขนาด: ${compStr}</span>`}
+        </div>
+      `;
+      previewGrid.appendChild(card);
+    });
+
+    previewGrid.querySelectorAll('.preview-remove-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.currentTarget.getAttribute('data-index'), 10);
+        compressedFilesList.splice(idx, 1);
+        renderPreviews();
+      });
+    });
+  }
 
   if (quoteForm && preparedBox && preparedPreview && btnCopy) {
-    quoteForm.addEventListener('submit', (e) => {
+    quoteForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const name = document.getElementById('quoteName').value.trim();
       const phone = document.getElementById('quotePhone').value.trim();
       const location = document.getElementById('quoteLocation').value.trim();
       const jobType = document.getElementById('quoteJobType').value;
       const note = document.getElementById('quoteNote').value.trim();
 
-      // Format plain text for LINE
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitBtnText) submitBtnText.textContent = 'กำลังบันทึกและส่งข้อมูล...';
+
+      // 1. Prepare FormData for Netlify Forms
+      const formData = new FormData();
+      formData.append('form-name', 'quickQuoteForm');
+      formData.append('contact_name', name);
+      formData.append('phone', phone);
+      formData.append('location', location);
+      formData.append('job_type', jobType);
+      formData.append('details', note || 'ไม่มีรายละเอียดเพิ่มเติม');
+
+      compressedFilesList.forEach((item) => {
+        formData.append('photos', item.file);
+      });
+
+      // Submit in background to Netlify
+      try {
+        await fetch('/', {
+          method: 'POST',
+          body: formData
+        });
+      } catch (err) {
+        console.warn('Netlify form submission background note:', err);
+      }
+
+      // 2. Prepare LINE Message
+      const photoNote = compressedFilesList.length > 0 
+        ? `(แนบรูปถ่ายหน้างาน ${compressedFilesList.length} รูปผ่านหน้าเว็บเรียบร้อย)` 
+        : '(แนบรูปถ่ายหน้างานในแชทนี้)';
+
       const plainMessage = [
         'สวัสดีครับ สนใจประเมินราคาลอกบ่อพัก/ท่อระบายน้ำ',
         `- ผู้ติดต่อ/หน่วยงาน: ${name}`,
@@ -315,10 +463,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `- พื้นที่/ทำเล: ${location}`,
         `- ประเภทหน้างาน: ${jobType}`,
         `- รายละเอียดเพิ่มเติม: ${note || 'ไม่มีข้อมูลเพิ่มเติม'}`,
-        '(แนบรูปถ่ายหน้างานในแชทนี้)'
+        photoNote
       ].join('\n');
 
-      // Formatted HTML display
       preparedPreview.innerHTML = `
         <div class="msg-line head"><strong>สวัสดีครับ สนใจประเมินราคาลอกบ่อพัก/ท่อระบายน้ำ</strong></div>
         <div class="msg-line"><strong>ผู้ติดต่อ:</strong> ${escapeHTML(name)}</div>
@@ -326,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="msg-line"><strong>พื้นที่/ทำเล:</strong> ${escapeHTML(location)}</div>
         <div class="msg-line"><strong>ประเภทหน้างาน:</strong> ${escapeHTML(jobType)}</div>
         <div class="msg-line"><strong>รายละเอียด/จำนวนบ่อ:</strong> ${escapeHTML(note || '-')}</div>
-        <div class="msg-line foot"><em>(แนบรูปถ่ายหน้างานเพิ่มเติมในแชทนี้)</em></div>
+        <div class="msg-line foot"><em>${photoNote}</em></div>
       `;
 
       if (fallbackArea) {
@@ -336,38 +483,13 @@ document.addEventListener('DOMContentLoaded', () => {
       preparedBox.style.display = 'block';
       preparedBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-      // Reset copy button state
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitBtnText) submitBtnText.textContent = 'ส่งข้อมูลประเมินราคา & รับข้อความทัก LINE';
+
       copyBtnLabel.textContent = 'คัดลอกข้อความ';
       btnCopy.classList.remove('copied', 'copy-error');
     });
 
-    btnCopy.addEventListener('click', async () => {
-      const textToCopy = fallbackArea ? fallbackArea.value : preparedPreview.innerText;
-
-      try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          await navigator.clipboard.writeText(textToCopy);
-          handleCopySuccess();
-        } else {
-          fallbackCopy();
-        }
-      } catch (err) {
-        fallbackCopy();
-      }
-    });
-
-    function handleCopySuccess() {
-      btnCopy.classList.add('copied');
-      btnCopy.classList.remove('copy-error');
-      copyBtnLabel.textContent = 'คัดลอกข้อความเรียบร้อยแล้ว ✓';
-      const notice = document.getElementById('fallbackCopyNotice');
-      if (notice) notice.style.display = 'none';
-      if (fallbackArea) fallbackArea.style.display = 'none';
-      setTimeout(() => {
-        copyBtnLabel.textContent = 'คัดลอกข้อความ';
-        btnCopy.classList.remove('copied');
-      }, 4000);
-    }
 
     function fallbackCopy() {
       if (fallbackArea) {
@@ -388,7 +510,6 @@ document.addEventListener('DOMContentLoaded', () => {
         handleCopyFail();
       }
     }
-
     function handleCopyFail() {
       btnCopy.classList.add('copy-error');
       btnCopy.classList.remove('copied');

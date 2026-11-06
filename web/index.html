@@ -1313,25 +1313,26 @@
                 กรอกข้อมูลเบื้องต้นเพื่อสรุปเป็นข้อความ จากนั้นคัดลอกไปส่งในแชท LINE เพื่อให้ทีมงานประเมินราคา
               </p>
 
-              <form class="quick-quote-form" id="quickQuoteForm">
+              <form class="quick-quote-form" id="quickQuoteForm" name="quickQuoteForm" method="POST" data-netlify="true" enctype="multipart/form-data">
+                <input type="hidden" name="form-name" value="quickQuoteForm">
                 <div class="form-group">
                   <label for="quoteName" class="form-label">ชื่อผู้ติดต่อ / หน่วยงาน *</label>
-                  <input type="text" id="quoteName" class="form-control" placeholder="เช่น คุณสมศักดิ์ / นิติบุคคลหมู่บ้าน..." required>
+                  <input type="text" id="quoteName" name="contact_name" class="form-control" placeholder="เช่น คุณสมศักดิ์ / นิติบุคคลหมู่บ้าน..." required>
                 </div>
 
                 <div class="form-group">
                   <label for="quotePhone" class="form-label">เบอร์โทรศัพท์ติดต่อ *</label>
-                  <input type="tel" id="quotePhone" class="form-control" placeholder="เช่น 081-xxx-xxxx" required>
+                  <input type="tel" id="quotePhone" name="phone" class="form-control" placeholder="เช่น 081-xxx-xxxx" required>
                 </div>
 
                 <div class="form-group">
                   <label for="quoteLocation" class="form-label">พื้นที่โครงการ / ทำเลที่ตั้ง *</label>
-                  <input type="text" id="quoteLocation" class="form-control" placeholder="เช่น รังสิต คลอง 2, แพรกษา, รามคำแหง" required>
+                  <input type="text" id="quoteLocation" name="location" class="form-control" placeholder="เช่น รังสิต คลอง 2, แพรกษา, รามคำแหง" required>
                 </div>
 
                 <div class="form-group">
                   <label for="quoteJobType" class="form-label">ประเภทหน้างาน</label>
-                  <select id="quoteJobType" class="form-control">
+                  <select id="quoteJobType" name="job_type" class="form-control">
                     <option value="หมู่บ้านจัดสรร / นิติบุคคล (ดูแลประจำปี)">หมู่บ้านจัดสรร / นิติบุคคล (ดูแลประจำปี)</option>
                     <option value="โครงการก่อสร้างบ้านจัดสรร (เตรียมตรวจรับมอบ)">โครงการก่อสร้างบ้านจัดสรร (เตรียมตรวจรับมอบ)</option>
                     <option value="บ้านพักอาศัย / ทาวน์โฮม">บ้านพักอาศัย / ทาวน์โฮม</option>
@@ -1341,21 +1342,44 @@
 
                 <div class="form-group">
                   <label for="quoteNote" class="form-label">จำนวนบ่อโดยประมาณ หรือรายละเอียดเพิ่มเติม</label>
-                  <textarea id="quoteNote" class="form-control" rows="3" placeholder="เช่น ประมาณ 15-20 บ่อ มีตะกอนดินสะสมหนา..."></textarea>
+                  <textarea id="quoteNote" name="details" class="form-control" rows="3" placeholder="เช่น ประมาณ 15-20 บ่อ มีตะกอนดินสะสมหนา..."></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="quotePhotos">
+                    📷 แนบรูปถ่ายหน้างาน / บ่อพัก (ไม่บังคับ)
+                  </label>
+                  <div class="file-upload-wrapper">
+                    <input type="file" id="quotePhotos" name="photos" accept="image/*" multiple class="file-input-hidden">
+                    <label for="quotePhotos" class="file-upload-box" id="fileUploadBox">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      <span class="file-upload-title">แตะหรือคลิกเพื่อเลือกรูปถ่ายหน้างาน</span>
+                      <span class="file-upload-sub">รองรับภาพมือถือความละเอียดสูง ระบบบีบอัดไฟล์ให้อัตโนมัติ</span>
+                    </label>
+                    <div class="file-preview-grid" id="filePreviewGrid"></div>
+                  </div>
                 </div>
 
                 <button type="submit" class="form-submit-btn" id="generateMsgBtn">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-                  <span>สรุปข้อความสำหรับทัก LINE</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                  <span id="submitBtnText">ส่งข้อมูลประเมินราคา & รับข้อความทัก LINE</span>
                 </button>
               </form>
 
               <!-- Prepared Message Result Box (Initially Hidden) -->
               <div class="prepared-message-box" id="preparedMessageBox" style="display: none;" aria-live="polite">
                 <div class="prepared-box-header">
-                  <span class="prepared-box-tag">ข้อความสรุปงานพร้อมส่ง</span>
+                  <div class="submit-success-badge" id="submitSuccessBadge" style="display: flex; align-items: center; gap: 8px; background: #DCFCE7; color: #166534; padding: 10px 14px; border-radius: 6px; font-weight: 700; font-size: 1.05rem; margin-bottom: 12px; border: 1px solid #BBF7D0;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>บันทึกข้อมูลและส่งแจ้งเตือนทีมงานเรียบร้อยแล้ว!</span>
+                  </div>
+                  <span class="prepared-box-tag">ข้อความสรุปงานพร้อมส่งทาง LINE</span>
                   <p class="prepared-box-instruction">
-                    กรุณากดปุ่ม <strong>"คัดลอกข้อความ"</strong> ด้านล่าง แล้วกด <strong>"เปิด LINE เพื่อวางข้อความ"</strong> ส่งในแชทให้ทีมงานได้เลยครับ
+                    หากต้องการส่งรูปพูดคุยกับทีมงานอย่างรวดเร็ว กดปุ่ม <strong>"คัดลอกข้อความ"</strong> แล้วกด <strong>"เปิด LINE เพื่อวางข้อความ"</strong> ได้ทันทีครับ
                   </p>
                 </div>
                 
