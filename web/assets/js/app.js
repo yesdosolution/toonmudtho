@@ -428,27 +428,28 @@ document.addEventListener('DOMContentLoaded', () => {
       if (submitBtn) submitBtn.disabled = true;
       if (submitBtnText) submitBtnText.textContent = 'กำลังบันทึกและส่งข้อมูล...';
 
-      // 1. Prepare FormData for Netlify Forms
+      // 1. Send Lead and Compressed Photos directly to Formspree (nanakornsuesat@gmail.com)
       const formData = new FormData();
-      formData.append('form-name', 'quickQuoteForm');
-      formData.append('contact_name', name);
-      formData.append('phone', phone);
-      formData.append('location', location);
-      formData.append('job_type', jobType);
-      formData.append('details', note || 'ไม่มีรายละเอียดเพิ่มเติม');
+      formData.append('ผู้ติดต่อ_หน่วยงาน', name);
+      formData.append('เบอร์โทรศัพท์', phone);
+      formData.append('พื้นที่_ทำเล', location);
+      formData.append('ประเภทหน้างาน', jobType);
+      formData.append('รายละเอียดเพิ่มเติม', note || 'ไม่มีข้อมูลเพิ่มเติม');
 
-      compressedFilesList.forEach((item) => {
-        formData.append('photos', item.file);
+      compressedFilesList.forEach((item, idx) => {
+        formData.append(`รูปถ่ายหน้างาน_${idx + 1}`, item.file);
       });
 
-      // Submit in background to Netlify
       try {
-        await fetch('/', {
+        await fetch('https://formspree.io/f/mwlljeno', {
           method: 'POST',
-          body: formData
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
         });
       } catch (err) {
-        console.warn('Netlify form submission background note:', err);
+        console.warn('Formspree submission note:', err);
       }
 
       // 2. Prepare LINE Message
