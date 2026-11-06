@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Lightbox Modal for Gallery Images (with Focus Trap & Restoration)
+  // 4. Lightbox Modal for Gallery & Portfolio Images (with Focus Trap & Restoration)
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxTitle = document.getElementById('lightboxTitle');
@@ -145,11 +145,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightboxModal) {
     const openLightbox = (item) => {
       lastFocusedElement = item;
-      const imgSrc = item.getAttribute('data-full-img') || item.querySelector('img').getAttribute('src');
+      const imgSrc = item.getAttribute('data-full-img') || item.getAttribute('data-src') || (item.querySelector('img') ? item.querySelector('img').getAttribute('src') : '');
       const titleEl = item.querySelector('.gallery-item-title');
       const captionEl = item.querySelector('.gallery-item-caption');
-      const title = titleEl ? titleEl.innerText : 'ภาพหน้างานจริง';
-      const caption = captionEl ? captionEl.innerText : '';
+      const dataTitle = item.getAttribute('data-title');
+      const title = dataTitle || (titleEl ? titleEl.innerText : 'ภาพหน้างานจริง');
+
+      let caption = captionEl ? captionEl.innerText : '';
+      if (!caption && item.classList.contains('portfolio-img-box')) {
+        const card = item.closest('.portfolio-card');
+        if (card) {
+          const loc = card.querySelector('.portfolio-loc-text') ? card.querySelector('.portfolio-loc-text').textContent.trim() : '';
+          const desc = card.querySelector('.portfolio-work-desc') ? card.querySelector('.portfolio-work-desc').textContent.trim() : '';
+          caption = [loc, desc].filter(Boolean).join(' • ');
+        }
+      }
 
       lightboxImg.setAttribute('src', imgSrc);
       lightboxImg.setAttribute('alt', title);
@@ -170,6 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           openLightbox(item);
+        }
+      });
+    });
+
+    const portfolioImgBoxes = document.querySelectorAll('.portfolio-img-box');
+    portfolioImgBoxes.forEach(box => {
+      box.addEventListener('click', () => openLightbox(box));
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(box);
         }
       });
     });
@@ -200,6 +221,32 @@ document.addEventListener('DOMContentLoaded', () => {
           closeLightbox();
         } else {
           trapFocus(lightboxModal, e);
+        }
+      }
+    });
+  }
+
+  // 4.1 Portfolio Toggle: Expand / Collapse All 17 Projects
+  const btnTogglePortfolio = document.getElementById('btnTogglePortfolio');
+  const portfolioGrid = document.getElementById('portfolioGrid');
+  const portfolioToggleText = document.getElementById('portfolioToggleText');
+
+  if (btnTogglePortfolio && portfolioGrid) {
+    btnTogglePortfolio.addEventListener('click', () => {
+      const isExpanded = portfolioGrid.classList.toggle('show-all');
+      btnTogglePortfolio.classList.toggle('expanded', isExpanded);
+      btnTogglePortfolio.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+      if (portfolioToggleText) {
+        portfolioToggleText.textContent = isExpanded 
+          ? 'ย่อแสดงผลงาน (แสดง 6 โครงการแรก)' 
+          : 'ดูผลงานโครงการทั้งหมด (17 โครงการ)';
+      }
+      if (!isExpanded) {
+        const portfolioSec = document.getElementById('portfolio');
+        if (portfolioSec) {
+          const navOffset = 90;
+          const targetY = portfolioSec.getBoundingClientRect().top + window.pageYOffset - navOffset;
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
         }
       }
     });
@@ -313,10 +360,13 @@ document.addEventListener('DOMContentLoaded', () => {
       btnCopy.classList.add('copied');
       btnCopy.classList.remove('copy-error');
       copyBtnLabel.textContent = 'คัดลอกข้อความเรียบร้อยแล้ว ✓';
+      const notice = document.getElementById('fallbackCopyNotice');
+      if (notice) notice.style.display = 'none';
+      if (fallbackArea) fallbackArea.style.display = 'none';
       setTimeout(() => {
         copyBtnLabel.textContent = 'คัดลอกข้อความ';
         btnCopy.classList.remove('copied');
-      }, 3500);
+      }, 4000);
     }
 
     function fallbackCopy() {
@@ -341,8 +391,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleCopyFail() {
       btnCopy.classList.add('copy-error');
-      copyBtnLabel.textContent = 'กรุณาเลือกข้อความและกด Ctrl+C';
-      if (fallbackArea) fallbackArea.style.display = 'block';
+      btnCopy.classList.remove('copied');
+      copyBtnLabel.textContent = 'แตะที่กล่องข้อความเพื่อคัดลอก';
+      const notice = document.getElementById('fallbackCopyNotice');
+      if (notice) notice.style.display = 'block';
+      if (fallbackArea) {
+        fallbackArea.style.display = 'block';
+        fallbackArea.focus();
+        fallbackArea.select();
+      }
+    }
+
+    if (fallbackArea) {
+      fallbackArea.addEventListener('click', () => { fallbackArea.select(); });
+      fallbackArea.addEventListener('focus', () => { fallbackArea.select(); });
     }
   }
 
