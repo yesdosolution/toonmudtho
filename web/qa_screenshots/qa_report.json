@@ -1,5 +1,5 @@
 {
-  "testDate": "2026-11-06T12:27:07.946Z",
+  "testDate": "2026-11-06T12:29:29.836Z",
   "evaluationVerdict": "PASS (Audited Components)",
   "deviceTesting": {
     "chromeDesktopHeadless": "PASS",
@@ -166,14 +166,14 @@
     },
     "02_desktop_fullpage_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\02_desktop_fullpage_1440.png",
-      "sizeBytes": 2434398,
-      "sizeKB": 2377.3,
+      "sizeBytes": 2439991,
+      "sizeKB": 2382.8,
       "isPng": true,
       "valid": true
     },
     "03_mobile_hero_390.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\03_mobile_hero_390.png",
-      "sizeBytes": 116659,
+      "sizeBytes": 116661,
       "sizeKB": 113.9,
       "isPng": true,
       "valid": true
@@ -201,43 +201,43 @@
     },
     "07c_portfolio_mobile_390.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07c_portfolio_mobile_390.png",
-      "sizeBytes": 188743,
-      "sizeKB": 184.3,
+      "sizeBytes": 189589,
+      "sizeKB": 185.1,
       "isPng": true,
       "valid": true
     },
     "07a_portfolio_section_desktop.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07a_portfolio_section_desktop.png",
-      "sizeBytes": 829752,
-      "sizeKB": 810.3,
+      "sizeBytes": 835887,
+      "sizeKB": 816.3,
       "isPng": true,
       "valid": true
     },
     "07d_portfolio_lightbox.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07d_portfolio_lightbox.png",
-      "sizeBytes": 895488,
-      "sizeKB": 874.5,
+      "sizeBytes": 910468,
+      "sizeKB": 889.1,
       "isPng": true,
       "valid": true
     },
     "07b_portfolio_section_expanded.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07b_portfolio_section_expanded.png",
-      "sizeBytes": 829782,
-      "sizeKB": 810.3,
+      "sizeBytes": 835922,
+      "sizeKB": 816.3,
       "isPng": true,
       "valid": true
     },
     "07_proof_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07_proof_section.png",
-      "sizeBytes": 594552,
-      "sizeKB": 580.6,
+      "sizeBytes": 573002,
+      "sizeKB": 559.6,
       "isPng": true,
       "valid": true
     },
     "08_services_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\08_services_section.png",
-      "sizeBytes": 556253,
-      "sizeKB": 543.2,
+      "sizeBytes": 549337,
+      "sizeKB": 536.5,
       "isPng": true,
       "valid": true
     },
