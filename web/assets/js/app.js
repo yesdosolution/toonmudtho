@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
       btnTogglePortfolio.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
       if (portfolioToggleText) {
         portfolioToggleText.textContent = isExpanded 
-          ? 'ย่อแสดงผลงาน (แสดง 6 โครงการแรก)' 
-          : 'ดูผลงานโครงการทั้งหมด (17 โครงการ)';
+          ? 'ย่อแสดงผลงาน' 
+          : 'ดูโครงการอื่นๆของเรา';
       }
       if (!isExpanded) {
         const portfolioSec = document.getElementById('portfolio');

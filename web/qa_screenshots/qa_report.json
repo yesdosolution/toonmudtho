@@ -1,5 +1,5 @@
 {
-  "testDate": "2026-11-06T12:02:47.602Z",
+  "testDate": "2026-11-06T12:27:07.946Z",
   "evaluationVerdict": "PASS (Audited Components)",
   "deviceTesting": {
     "chromeDesktopHeadless": "PASS",
@@ -102,8 +102,8 @@
       "initialHiddenCards": 11,
       "expandedVisibleCards": 17,
       "gridHasShowAll": true,
-      "toggleTextBefore": "ดูผลงานโครงการทั้งหมด (17 โครงการ)",
-      "toggleTextAfter": "ย่อแสดงผลงาน (แสดง 6 โครงการแรก)"
+      "toggleTextBefore": "ดูโครงการอื่นๆของเรา",
+      "toggleTextAfter": "ย่อแสดงผลงาน"
     },
     "imagesAudit": {
       "totalImages": 17,
@@ -159,21 +159,21 @@
   "screenshots": {
     "01_desktop_hero_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\01_desktop_hero_1440.png",
-      "sizeBytes": 512175,
-      "sizeKB": 500.2,
+      "sizeBytes": 508529,
+      "sizeKB": 496.6,
       "isPng": true,
       "valid": true
     },
     "02_desktop_fullpage_1440.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\02_desktop_fullpage_1440.png",
-      "sizeBytes": 2438711,
-      "sizeKB": 2381.6,
+      "sizeBytes": 2434398,
+      "sizeKB": 2377.3,
       "isPng": true,
       "valid": true
     },
     "03_mobile_hero_390.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\03_mobile_hero_390.png",
-      "sizeBytes": 116662,
+      "sizeBytes": 116659,
       "sizeKB": 113.9,
       "isPng": true,
       "valid": true
@@ -215,8 +215,8 @@
     },
     "07d_portfolio_lightbox.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07d_portfolio_lightbox.png",
-      "sizeBytes": 910330,
-      "sizeKB": 889,
+      "sizeBytes": 895488,
+      "sizeKB": 874.5,
       "isPng": true,
       "valid": true
     },
@@ -229,15 +229,15 @@
     },
     "07_proof_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\07_proof_section.png",
-      "sizeBytes": 593230,
-      "sizeKB": 579.3,
+      "sizeBytes": 594552,
+      "sizeKB": 580.6,
       "isPng": true,
       "valid": true
     },
     "08_services_section.png": {
       "path": "D:\\ภาพลอกท่อ\\web\\qa_screenshots\\08_services_section.png",
-      "sizeBytes": 559830,
-      "sizeKB": 546.7,
+      "sizeBytes": 556253,
+      "sizeKB": 543.2,
       "isPng": true,
       "valid": true
     },
