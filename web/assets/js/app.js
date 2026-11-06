@@ -81,6 +81,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Clean URL: Strip #hero or anchor hash so the address bar stays clean (https://toonmudtho.com/)
+  if (window.location.hash === '#hero' || window.location.hash === '#') {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+
+  // Smooth scroll for logo & anchor links keeping clean URL
+  const brandLogo = document.querySelector('.brand-logo-wrap');
+  if (brandLogo) {
+    brandLogo.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        const headerOffset = 90;
+        const elementPosition = targetEl.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+        // Keep URL clean without appending hash tags
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    });
+  });
+
   // 2. Active Navigation Highlighting on Scroll
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
