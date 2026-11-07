@@ -1056,9 +1056,9 @@ button {
   }
 }
 
-@media (min-width: 1140px) {
+@media (min-width: 1024px) {
   .services-grid-4 {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
